@@ -8,7 +8,7 @@
     <link href="/2025/11/28/%E9%9A%8F%E8%AE%B0-1/"/>
     <url>/2025/11/28/%E9%9A%8F%E8%AE%B0-1/</url>
     
-    <content type="html"><![CDATA[<h1id="用于测试pandoc渲染数学公式是否正确">用于测试Pandoc渲染数学公式是否正确</h1><p><span class="math display">\[e=mc^2\]</span></p><p>配置一个搜索</p><p>一个主页</p><p>和一个文章</p>]]></content>
+    <content type="html"><![CDATA[<h1id="用于测试pandoc渲染数学公式是否正确">用于测试Pandoc渲染数学公式是否正确</h1><p><spanclass="math display"><em>e</em> = <em>m</em><em>c</em><sup>2</sup></span></p><p>配置一个搜索</p><p>一个主页</p><p>和一个文章</p>]]></content>
     
     
     
