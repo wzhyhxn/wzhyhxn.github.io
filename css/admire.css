@@ -1,0 +1,247 @@
+/* 文件名: source/css/admire.css
+  用途: "我所敬佩的人" 栏目通用样式
+  适配: Hexo Butterfly 主题
+*/
+
+/* 容器基础样式 - 适配 Butterfly 文章容器 */
+.admire-container {
+  max-width: 100%;
+  margin: 20px auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--font-color); /* 适配 Butterfly 的深色模式变量 */
+}
+
+/* 顶部人物卡片区域 */
+.admire-card {
+  display: flex;
+  background: var(--card-bg); /* 适配 Butterfly 卡片背景色 */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--borderColor); /* 适配边框颜色 */
+  position: relative;
+}
+
+.admire-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* 左侧图片 */
+.admire-portrait {
+  width: 180px;
+  height: auto;
+  min-height: 220px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: #333;
+  position: relative;
+}
+
+.admire-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%); /* 黑白滤镜 */
+  transition: filter 0.5s ease;
+  margin: 0 !important; /* 强制覆盖主题默认 margin */
+  display: block;
+}
+
+.admire-card:hover .admire-portrait img {
+  filter: grayscale(0%); /* 悬停恢复彩色 */
+}
+
+/* 右侧信息 */
+.admire-info {
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.admire-name {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  line-height: 1.2;
+}
+
+.admire-years {
+  font-size: 14px;
+  opacity: 0.7;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  font-family: monospace;
+}
+
+.admire-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.admire-tag {
+  display: inline-block;
+  background: var(--btn-bg); /* 适配主题按钮颜色 */
+  color: var(--btn-color);
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.admire-action {
+  margin-top: auto;
+  font-size: 13px;
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+}
+
+.admire-action::after {
+  content: "▼";
+  font-size: 10px;
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+/* 展开状态下的箭头旋转 */
+.admire-card.active .admire-action::after {
+  transform: rotate(180deg);
+}
+
+/* 详情区域（默认隐藏） */
+.admire-details {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 20px;
+  border-left: 2px solid var(--borderColor);
+  margin-left: 25px;
+  padding-left: 30px;
+}
+
+/* 展开后的样式 */
+.admire-details.open {
+  max-height: 3000px; /* 足够大即可 */
+  opacity: 1;
+  margin-bottom: 40px;
+}
+
+/* 时间轴样式 */
+.admire-timeline-item {
+  margin-bottom: 35px;
+  position: relative;
+}
+
+.admire-timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -37px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  background: var(--text-bg-hover); /* 使用主题的高亮色 */
+  border-radius: 50%;
+  border: 3px solid var(--card-bg);
+  box-shadow: 0 0 0 1px var(--borderColor);
+}
+
+.admire-year-heading {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-highlight);
+}
+
+.admire-content {
+  font-size: 15px;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .admire-card {
+    flex-direction: column;
+  }
+  .admire-portrait {
+    width: 100%;
+    height: 260px;
+  }
+  .admire-info {
+    text-align: center;
+    padding: 20px;
+  }
+  .admire-badges {
+    justify-content: center;
+  }
+  .admire-action {
+    justify-content: center;
+    margin-top: 15px;
+  }
+  .admire-details {
+    margin-left: 10px;
+    padding-left: 15px;
+    border-left-width: 1px;
+  }
+  .admire-timeline-item::before {
+    left: -21px;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* ... 之前的代码保持不变 ... */
+
+/* ———— 新版：杂志级版权标识 ———— */
+
+.admire-credit {
+  /* 布局定位 */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  
+  /* 视觉风格：使用渐变代替纯黑背景，更柔和 */
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+  padding: 20px 10px 5px 0; /* 上方留出空间给渐变 */
+  text-align: right; /* 文字靠右，更有设计感 */
+  
+  /* 默认状态：隐藏 */
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all 0.3s ease; /* 平滑过渡动画 */
+  
+  /* 交互 */
+  pointer-events: none; /* 默认不阻挡鼠标 */
+  z-index: 10;
+}
+
+/* 只有当鼠标悬停在图片区域时，版权信息才浮现 */
+.admire-portrait:hover .admire-credit {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto; /* 浮现后允许点击链接 */
+}
+
+/* 链接样式 */
+.admire-credit a {
+  color: rgba(255, 255, 255, 0.7) !important; /* 稍微透明的白色，不抢眼 */
+  font-family: -apple-system, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  text-decoration: none !important;
+  letter-spacing: 0.5px;
+}
+
+.admire-credit a:hover {
+  color: #fff !important; /* 鼠标放在文字上时变亮 */
+  text-decoration: underline !important;
+}
