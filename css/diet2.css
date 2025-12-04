@@ -2,23 +2,15 @@
 
 /* === 列表部分 === */
 #diet-container {
-  display: grid; 
-  /* 电脑端保持原逻辑 */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px; 
-  padding: 20px 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px; padding: 20px 0;
 }
-
 .diet-card {
   background: var(--card-bg); border-radius: 12px; overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;
   border: 1px solid var(--card-border);
 }
-/* 手机端取消 hover 上浮效果，防止点击时闪烁 */
-@media (hover: hover) {
-  .diet-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
-}
-
+.diet-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
 .diet-img-box {
   width: 100%; height: 200px; overflow: hidden; position: relative; cursor: zoom-in;
 }
@@ -26,6 +18,8 @@
   width: 100%; height: 100%; object-fit: cover;
   margin: 0!important; pointer-events: none;
   transform-origin: center center;
+  /* 【修改点】列表图去掉了 transform 的过渡动画，只保留 hover 放大(如果需要的话) */
+  /* transition: transform 0.5s; <--- 删掉这个，防止列表加载时图片转圈 */
 }
 .diet-date {
   position: absolute; top: 10px; left: 10px;
@@ -38,49 +32,46 @@
 .diet-rating { color: #FFD700; font-size: 0.9em; }
 
 
-/* === 弹窗部分 (移动端优化版) === */
+/* === 弹窗部分 === */
 #diet-modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.9); /* 背景更深一点，突出图片 */
   z-index: 99999; opacity: 0; visibility: hidden;
   transition: all 0.3s ease; backdrop-filter: blur(10px);
   display: flex; align-items: center; justify-content: center;
-  
-  /* 【改动】电脑端保留内边距，手机端下面会覆盖 */
-  padding: 30px; 
-  cursor: zoom-out;
+  padding: 20px;
 }
 #diet-modal-overlay.active { opacity: 1; visibility: visible; }
 
 #diet-modal-content {
   width: auto; height: auto;
   max-width: 100%; max-height: 100%;
-  box-shadow: none; border-radius: 0; 
-  background: transparent;
+  /* 【修改点】移除了弹窗卡片的阴影，更加扁平化 */
+  box-shadow: none; 
+  /* 移除了 border-radius，让大图更沉浸 */
+  border-radius: 0; 
+  background: transparent; /* 背景透明 */
   transform: scale(0.95); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative; display: flex; 
   border: none;
-  pointer-events: none;
 }
 #diet-modal-overlay.active #diet-modal-content { transform: scale(1); }
 
 .modal-img-side {
-  width: 100%; height: 100%; 
-  /* 【改动】电脑端最小尺寸，手机端下面会覆盖 */
-  min-width: 300px; min-height: 300px;
-  position: relative; overflow: visible;
+  width: 100%; height: 100%; min-width: 300px; min-height: 300px;
+  position: relative; overflow: visible; /* 允许溢出一点点以防万一 */
   background: transparent;
   --bg-image-url: none;
   display: flex; align-items: center; justify-content: center;
-  pointer-events: auto;
-  cursor: zoom-out;
 }
 
+/* 模糊背景层 (依然保留，增加氛围感) */
 .modal-img-side::before {
   content: ''; position: absolute;
   top: -100%; left: -100%; width: 300%; height: 300%;
   background-image: var(--bg-image-url);
   background-size: cover; background-position: center;
+  /* 模糊度加大，亮度降低，作为纯氛围背景 */
   filter: blur(50px) brightness(0.4) saturate(1.2);
   z-index: 0;
 }
@@ -92,36 +83,14 @@
   width: auto; height: auto;
   object-fit: contain;
   transform-origin: center center;
-  border-radius: 16px; /* 电脑端圆角 */
+  
+/* 【新增】添加 16px 的圆角，你可以根据喜好调整这个数字 */
+  border-radius: 16px;
+
+  /* 【修改点1】完全移除阴影 */
   box-shadow: none !important;
+  
+  /* 【修改点2】移除所有动画，确保旋转是瞬间的 */
   transition: none !important; 
-  cursor: default;
 }
 
-
-/* =========================================
-   📱 移动端专属优化 (新增部分)
-========================================= */
-@media screen and (max-width: 768px) {
-  /* 1. 列表页：更紧凑 */
-  #diet-container {
-    gap: 15px; /* 间距缩小 */
-    padding: 10px 5px; /* 两侧留一点点空隙，防止贴边 */
-  }
-  
-  /* 2. 弹窗：接近全屏 */
-  #diet-modal-overlay {
-    padding: 0; /* 手机上不要四周的黑边，直接全屏 */
-  }
-  
-  .modal-img-side {
-    min-width: auto; /* 取消最小宽度限制，防止小屏手机撑破 */
-    min-height: auto;
-  }
-  
-  .modal-img-side img {
-    max-width: 100vw; /* 宽度撑满屏幕 */
-    max-height: 85vh; /* 高度留一点余地（避免被浏览器地址栏遮挡） */
-    border-radius: 8px; /* 手机上圆角小一点更精致 */
-  }
-}
