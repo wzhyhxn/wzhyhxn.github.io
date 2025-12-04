@@ -63,9 +63,9 @@ function initDietPage() {
   if (overlay) {
       overlay.addEventListener('click', function(e) {
           // 逻辑：只要点击的 id 不是那个大图本身(modal-img-entity)，就说明点的是背景，执行关闭
-          if (e.target.id !== 'modal-img-entity') {
+          //if (e.target.id !== 'modal-img-entity') {
               closeDietModal();
-          }
+          //}
       });
   }
 }
