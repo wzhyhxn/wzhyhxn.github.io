@@ -1,0 +1,96 @@
+/* source/css/diet.css */
+
+/* === 列表部分 === */
+#diet-container {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px; padding: 20px 0;
+}
+.diet-card {
+  background: var(--card-bg); border-radius: 12px; overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;
+  border: 1px solid var(--card-border);
+}
+.diet-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+.diet-img-box {
+  width: 100%; height: 200px; overflow: hidden; position: relative; cursor: zoom-in;
+}
+.diet-img-box img {
+  width: 100%; height: 100%; object-fit: cover;
+  margin: 0!important; pointer-events: none;
+  transform-origin: center center;
+  /* 【修改点】列表图去掉了 transform 的过渡动画，只保留 hover 放大(如果需要的话) */
+  /* transition: transform 0.5s; <--- 删掉这个，防止列表加载时图片转圈 */
+}
+.diet-date {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(0,0,0,0.6); color: #fff; padding: 4px 8px;
+  border-radius: 4px; font-size: 12px; backdrop-filter: blur(4px);
+}
+.diet-content { padding: 15px; }
+.diet-title { font-size: 1.1em; font-weight: bold; margin-bottom: 8px; color: var(--font-color); }
+.diet-desc { font-size: 0.9em; opacity: 0.8; margin-bottom: 10px; line-height: 1.5; color: var(--font-color); }
+.diet-rating { color: #FFD700; font-size: 0.9em; }
+
+
+/* === 弹窗部分 === */
+#diet-modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.9); /* 背景更深一点，突出图片 */
+  z-index: 99999; opacity: 0; visibility: hidden;
+  transition: all 0.3s ease; backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+#diet-modal-overlay.active { opacity: 1; visibility: visible; }
+
+#diet-modal-content {
+  width: auto; height: auto;
+  max-width: 100%; max-height: 100%;
+  /* 【修改点】移除了弹窗卡片的阴影，更加扁平化 */
+  box-shadow: none; 
+  /* 移除了 border-radius，让大图更沉浸 */
+  border-radius: 0; 
+  background: transparent; /* 背景透明 */
+  transform: scale(0.95); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative; display: flex; 
+  border: none;
+}
+#diet-modal-overlay.active #diet-modal-content { transform: scale(1); }
+
+.modal-img-side {
+  width: 100%; height: 100%; min-width: 300px; min-height: 300px;
+  position: relative; overflow: visible; /* 允许溢出一点点以防万一 */
+  background: transparent;
+  --bg-image-url: none;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* 模糊背景层 (依然保留，增加氛围感) */
+.modal-img-side::before {
+  content: ''; position: absolute;
+  top: -100%; left: -100%; width: 300%; height: 300%;
+  background-image: var(--bg-image-url);
+  background-size: cover; background-position: center;
+  /* 模糊度加大，亮度降低，作为纯氛围背景 */
+  filter: blur(50px) brightness(0.4) saturate(1.2);
+  z-index: 0;
+}
+
+/* 清晰前景图 */
+.modal-img-side img {
+  position: relative; z-index: 2;
+  max-width: 95vw; max-height: 90vh; 
+  width: auto; height: auto;
+  object-fit: contain;
+  transform-origin: center center;
+  
+/* 【新增】添加 16px 的圆角，你可以根据喜好调整这个数字 */
+  border-radius: 16px;
+
+  /* 【修改点1】完全移除阴影 */
+  box-shadow: none !important;
+  
+  /* 【修改点2】移除所有动画，确保旋转是瞬间的 */
+  transition: none !important; 
+}
+
